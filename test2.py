@@ -1,4 +1,5 @@
 from tkinter import *
+from PIL import ImageTk, Image
 import random
 
 #	want a loop where cat image updates for a bit and then disappears
@@ -38,8 +39,7 @@ def animateForever(index, catsList, actionList, label):
 	if(index<len(actionList)):
 		label.config(text="\n"+drawCat(actionList[index], catsList).read())
 		root.after(500, lambda: animateForever(index+1, catsList, actionList, label))
-	else:
-		print("there")
+	else: #switch animation
 		choice = random.randint(0,1)
 		if choice == 0:
 			actionList = [0,0,1,0,0,1,0,0]
@@ -65,8 +65,9 @@ def colorSwitch(b):
 
 print("running")
 
+alphaColor = "orange"
 root = Tk()
-root.configure(bg="black")
+root.configure(bg=alphaColor)
 root.minsize(width=300, height=250)
 root.geometry("300x250+900+460")
 root.overrideredirect(1)
@@ -74,12 +75,19 @@ root.attributes('-alpha', 1)
 root.attributes('-topmost', True)
 catColor = "white"
 
-fontTuple = ("Fixedsys", 15, "bold")
-b = Button(root, relief="flat", command=lambda: colorSwitch(b), bg="black", fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
+img = ImageTk.PhotoImage(Image.open("images/paw.png").resize((20,20), Image.LANCZOS))
+#img = img.resize((10,10), Image.ANTIALIAS)
+panel = Button(root, image = img, bg="red")
+panel.pack(side="bottom", fill = "none", expand = "yes", anchor=NE)
+panel1 = Button(root, image = img, bg="red")
+panel1.pack(side="bottom", fill = "none", expand = "yes", anchor=NE)
+
+fontTuple = ("Fixedsys", 10, "bold")
+b = Button(root, relief="flat", command=lambda: colorSwitch(b), bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
 b.configure(font= fontTuple)
 b.pack()
 
-root.wm_attributes("-transparentcolor", "black")
+root.wm_attributes("-transparentcolor", alphaColor)
 
 #root.after(1000, lambda: drawAnimate(0, catsArray, b))
 root.after(1000, lambda: animateForever(0, catsList, sit, b))
