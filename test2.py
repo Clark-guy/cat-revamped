@@ -68,8 +68,8 @@ print("running")
 alphaColor = "orange"
 root = Tk()
 root.configure(bg=alphaColor)
-root.minsize(width=300, height=250)
-root.geometry("300x250+900+460")
+root.minsize(width=300, height=180)
+root.geometry("300x180+970+490")
 root.overrideredirect(1)
 root.attributes('-alpha', 1)
 root.attributes('-topmost', True)
@@ -77,14 +77,16 @@ catColor = "white"
 
 img = ImageTk.PhotoImage(Image.open("images/paw.png").resize((20,20), Image.LANCZOS))
 #img = img.resize((10,10), Image.ANTIALIAS)
-panel = Button(root, image = img, bg="red")
-panel.pack(side="bottom", fill = "none", expand = "yes", anchor=NE)
-panel1 = Button(root, image = img, bg="red")
-panel1.pack(side="bottom", fill = "none", expand = "yes", anchor=NE)
 
 fontTuple = ("Fixedsys", 10, "bold")
 b = Button(root, relief="flat", command=lambda: colorSwitch(b), bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
 b.configure(font= fontTuple)
+panel1 = Button(root, image = img, bg="blue", command=lambda: colorSwitch(b))
+panel = Button(root, image = img, bg="red", command=root.destroy)
+
+#pack panels
+panel.pack(side="right", fill = "none", expand = "no", anchor=SE)
+panel1.pack(side="right", fill = "none", expand = "no", anchor=SE)
 b.pack()
 
 root.wm_attributes("-transparentcolor", alphaColor)
