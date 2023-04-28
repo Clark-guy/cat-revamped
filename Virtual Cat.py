@@ -13,6 +13,20 @@ import random
 def destroyFunction(root):
 	root.destroy()
 
+def transparencyFunc(root, alphaColor, panel2):
+        global invisibleWindow
+        if invisibleWindow == 0:
+                root.wm_attributes("-transparentcolor", alphaColor)
+                root.overrideredirect(1)
+                root.minsize(width=300, height=180)
+                invisibleWindow = 1
+        else:
+                root.wm_attributes("-transparentcolor", "")
+                root.overrideredirect(0)
+                root.minsize(width=200, height=180)
+                invisibleWindow = 0
+
+
 #How to use root.after to animate cat indefinitely?
 #make an array of indexes for action, pass to drawAnimate
 #this is recursive, so at the end of array escape and
@@ -61,10 +75,11 @@ def colorSwitch(b):
 
 #global vars
 catColor = "gray1"
+invisibleWindow = 0
 
 
 def main():
-        fullscreen=0#True
+        fullscreen=False#True
         catsList = [
                 "cats/cat.txt",	#0 sitting
                 "cats/cat0.txt",#1 sitting blink
@@ -88,21 +103,25 @@ def main():
         alphaColor = "orange"
         root = Tk()
         root.configure(bg=alphaColor)
-        root.minsize(width=300, height=180)
-        root.geometry("300x180+970+490")
+        root.minsize(width=200, height=180)
+        root.title("Burgle")
+        root.geometry("200x180+970+490")
 
         if fullscreen:
                 root.attributes('-fullscreen', True)
-                margin = 45
+                marginy = 45
+                marginx = 5
         else:
-                root.overrideredirect(1)
-                margin = 0
+                #I kinda like this without the overrideredirect
+                #root.overrideredirect(1)
+                marginy = 5
+                marginx = 20
+
+        #root.wm_attributes("-transparentcolor", alphaColor)
 
 
-
-        root.attributes('-alpha', 1)
+        #root.attributes('-alpha', 1)
         root.attributes('-topmost', True)
-        #catColor = "white"
         global catColor
         
 
@@ -110,17 +129,33 @@ def main():
         #img = img.resize((10,10), Image.ANTIALIAS)
 
         fontTuple = ("Fixedsys", 10, "bold")
-        b = Button(root, relief="flat", command=lambda: colorSwitch(b), bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
+
+        #making frames
+        catFrame = Frame(root, width=100, height=100)
+        buttonFrame = Frame(root, width=100, height=100)
+        catFrame.pack(side="left")
+        buttonFrame.pack(side="right")
+
+
+        
+        b = Label(catFrame, relief="flat",bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
         b.configure(font= fontTuple)
-        panel1 = Button(root, image = img, bg="blue", command=lambda: colorSwitch(b))
-        panel = Button(root, image = img, bg="red", command=root.destroy)
+        panel2 = Button(buttonFrame, image = img, bg="green", command=lambda: transparencyFunc(root, alphaColor, panel2))
+        panel1 = Button(buttonFrame, image = img, bg="blue", command=lambda: colorSwitch(b))
+        panel0 = Button(buttonFrame, image = img, bg="red", command=root.destroy)
 
         #pack panels
-        panel.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=margin)
-        panel1.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=margin)
-        b.pack(side="right", anchor=SE, pady=margin)
+        #panel0.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
+        #panel1.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
+        #panel2.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
+        #b.pack(side="right", anchor=SE, pady=marginy)
 
-        root.wm_attributes("-transparentcolor", alphaColor)
+        panel0.grid(column=0,row=0, sticky="W")
+        panel1.grid(column=0,row=1)
+        panel2.grid(column=0,row=2)
+        b.grid(column=0,row=0)
+
+
 
         #can call many of these concurrently - maybe one to manage statuses, one for view?
         # maybe would be better to consolidate all to one function, and go from there
