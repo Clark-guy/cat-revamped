@@ -10,6 +10,8 @@ import random
 # - maybe little indicator bars?
 
 
+
+
 def destroyFunction(root):
 	root.destroy()
 
@@ -23,7 +25,7 @@ def transparencyFunc(root, alphaColor, panel2):
         else:
                 root.wm_attributes("-transparentcolor", "")
                 root.overrideredirect(0)
-                root.minsize(width=200, height=180)
+                root.minsize(width=300, height=180)
                 invisibleWindow = 0
 
 
@@ -72,10 +74,31 @@ def colorSwitch(b):
 		catColor="white"
 		b.config(fg="white")
 
+def test(root):
+        global winX
+        global winY
+        global posX
+        global posY
+        if(winX < 400):
+                winX +=1
+                posX +=1
+                root.after(100, lambda: test(root))
+                root.geometry(str(winX)+"x"+
+                              str(winY)+
+                              "+"+
+                              str(winY+200-posX)+"+"+
+                              str(posY))
+        print(str(winX)+"x"+str(winY))
+
+
 
 #global vars
 catColor = "gray1"
 invisibleWindow = 0
+winX = 300
+winY = 180
+posX = 100
+posY = 100
 
 
 def main():
@@ -103,9 +126,9 @@ def main():
         alphaColor = "orange"
         root = Tk()
         root.configure(bg=alphaColor)
-        root.minsize(width=200, height=180)
+        root.minsize(width=300, height=180)
         root.title("Burgle")
-        root.geometry("200x180+970+490")
+        root.geometry("300x180+100+100")
 
         if fullscreen:
                 root.attributes('-fullscreen', True)
@@ -165,6 +188,8 @@ def main():
         #root.after(1000, lambda: drawAnimate(0, catsArray, b))
 
         root.after(1000, lambda: animateForever(root, 0, catsList, actions, sit, b))
+        root.after(100, lambda: test(root))
+        
         #root.after(30000, destroyFunction)
 
         root.mainloop()
