@@ -93,6 +93,6 @@ root.wm_attributes("-transparentcolor", alphaColor)
 
 #root.after(1000, lambda: drawAnimate(0, catsArray, b))
 root.after(1000, lambda: animateForever(0, catsList, sit, b))
-root.after(30000, destroyFunction)
+#root.after(30000, destroyFunction)
 
 root.mainloop()
