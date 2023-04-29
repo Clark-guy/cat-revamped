@@ -46,7 +46,7 @@ def animateForever(root, index, catsList, actions, currentAction, label):
 		label.config(text="\n"+drawCat(currentAction[index], catsList).read())
 		root.after(500, lambda: animateForever(root, index+1, catsList, actions, currentAction, label))
 	else: #switch animation
-		choice = random.randint(0,3)
+		choice = random.randint(0,7)
 		match choice:
 			case 0:
 				currentAction = actions[0]
@@ -54,8 +54,18 @@ def animateForever(root, index, catsList, actions, currentAction, label):
 				currentAction = actions[1]
 			case 2:
 				currentAction = actions[2]
-			case _:
+				#root.after(100, lambda: test(root, 10, 400))
+			case 3:
 				currentAction = actions[3]
+			case 4:
+				currentAction = actions[4]
+			case 5:
+				currentAction = actions[5]
+				root.after(100, lambda: test(root, 10, 550))				
+			case 6:
+				currentAction = actions[6]
+			case _:
+				currentAction = actions[7]
 		root.after(0, lambda: animateForever(root, 0, catsList, actions, currentAction, label))
 		
 
@@ -125,15 +135,15 @@ def main():
                 "cats/cat7L.txt"]#8L sleep2
 
         #turn into dictionary TODO
-        sit = [0,0,1,0,0,1,0,0]
-        sitL = [x+1 for x in sit]
-        lookLeft = [5,5,6,5,5,6,5,5]
-        lookRight = [x+1 for x in lookRight]
-        walk = [3,4,3,4,3,4]
-        walkL = [x+1 for x in walk]
-        sleep = [7,8,7,8,7,8,7,8]
-        sleepL = [x+1 for x in sleep]
-        actions = [sit, walk, lookLeft, sleep]
+        sit = [0,0,1,0,0,1,0,0]                 #0
+        sitL = [x+9 for x in sit]               #1
+        lookLeft = [5,5,6,5,5,6,5,5]            #2
+        lookRight = [x+9 for x in lookLeft]     #3
+        walk = [3,4,3,4,3,4]                    #4
+        walkL = [x+9 for x in walk]             #5
+        sleep = [7,8,7,8,7,8,7,8]               #6
+        sleepL = [x+9 for x in sleep]           #7
+        actions = [sit, walk, lookLeft, sleep, sitL, walkL, lookRight, sleepL]  
 
         #window creation
         print("running")
@@ -206,7 +216,6 @@ def main():
         #
 
         root.after(1000, lambda: animateForever(root, 0, catsList, actions, sit, b))
-        root.after(100, lambda: test(root, 10, 400))
         
         #root.after(30000, destroyFunction)
 
