@@ -74,21 +74,22 @@ def colorSwitch(b):
 		catColor="white"
 		b.config(fg="white")
 
-def test(root):
+def test(root, interval, maxSize):
         global winX
         global winY
         global posX
         global posY
-        if(winX < 400):
-                winX +=1
-                posX +=1
-                root.after(100, lambda: test(root))
+        if(winX < maxSize):
+                winX +=interval
+                posX +=interval
+                root.after(100, lambda: test(root, interval, maxSize))
                 root.geometry(str(winX)+"x"+
                               str(winY)+
                               "+"+
                               str(winY+200-posX)+"+"+
                               str(posY))
-        print(str(winX)+"x"+str(winY))
+        print(interval)
+        print(maxSize)
 
 
 
@@ -106,19 +107,32 @@ def main():
         catsList = [
                 "cats/cat.txt",	#0 sitting
                 "cats/cat0.txt",#1 sitting blink
-                "cats/cat1.txt",#2 standing
-                "cats/cat2.txt",#3 walk1
-                "cats/cat3.txt",#4 walk2
+                "cats/cat1.txt",#2 standing left
+                "cats/cat2.txt",#3 walk1 left
+                "cats/cat3.txt",#4 walk2 left
                 "cats/cat4.txt",#5 sitting look left
                 "cats/cat5.txt",#6 sitting look left blink
                 "cats/cat6.txt",#7 sleep1
-                "cats/cat7.txt"]#8 sleep2
+                "cats/cat7.txt",#8 sleep2
+                "cats/catL.txt",#0L sitting
+                "cats/cat0L.txt",#1L sitting blink
+                "cats/cat1L.txt",#2L standing left
+                "cats/cat2L.txt",#3L walk1 left
+                "cats/cat3L.txt",#4L walk2 left
+                "cats/cat4L.txt",#5L sitting look left
+                "cats/cat5L.txt",#6L sitting look left blink
+                "cats/cat6L.txt",#7L sleep1
+                "cats/cat7L.txt"]#8L sleep2
 
         #turn into dictionary TODO
         sit = [0,0,1,0,0,1,0,0]
+        sitL = [x+1 for x in sit]
         lookLeft = [5,5,6,5,5,6,5,5]
+        lookRight = [x+1 for x in lookRight]
         walk = [3,4,3,4,3,4]
+        walkL = [x+1 for x in walk]
         sleep = [7,8,7,8,7,8,7,8]
+        sleepL = [x+1 for x in sleep]
         actions = [sit, walk, lookLeft, sleep]
 
         #window creation
@@ -185,10 +199,14 @@ def main():
         #
         #idea 1 - create object cat, pass to root.after function below, call object method to increase hunger and sleepiness from within that
         #
-        #root.after(1000, lambda: drawAnimate(0, catsArray, b))
+        #
+        #
+        # moving cat - 
+        #
+        #
 
         root.after(1000, lambda: animateForever(root, 0, catsList, actions, sit, b))
-        root.after(100, lambda: test(root))
+        root.after(100, lambda: test(root, 10, 400))
         
         #root.after(30000, destroyFunction)
 
