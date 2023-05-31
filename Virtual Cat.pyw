@@ -177,12 +177,12 @@ def main():
 	root = Tk()
 	global posX
 	global posY
-	posX = root.winfo_screenwidth()-350
-	posY = root.winfo_screenheight()-300
+	posX = root.winfo_screenwidth()-winX-20
+	posY = root.winfo_screenheight()-winY-40
 	root.configure(bg=alphaColor)
 	root.minsize(width=300, height=180)
 	root.title("Burgle")
-	root.geometry("300x180+"+str(posX)+"+"+str(posY))
+	root.geometry(str(winX)+"x"+str(winY)+"+"+str(posX)+"+"+str(posY))
 	root.resizable(False,False)
 
 	if fullscreen:
@@ -190,7 +190,7 @@ def main():
 		marginy = 45
 		marginx = 5
 	else:
-		#I kinda like this without the overrideredirect
+		#Going back and forth on using overrideRedirect here- could make it a lot easier to style the window
 		#root.overrideredirect(1)
 		marginy = 5
 		marginx = 20
