@@ -129,6 +129,26 @@ def moveRight(root, interval, maxSize):
 
 
 
+class Win(Tk):
+    def __init__(self):
+        super().__init__()
+        super().overrideredirect(True)
+        self._offsetx = 0
+        self._offsety = 0
+        super().bind("<Button-1>" ,self.clickwin)
+        super().bind("<B1-Motion>", self.dragwin)
+
+    def dragwin(self,event):
+        x = super().winfo_pointerx() - self._offsetx
+        y = super().winfo_pointery() - self._offsety
+        super().geometry(f"+{x}+{y}")
+
+    def clickwin(self,event):
+        self._offsetx = super().winfo_pointerx() - super().winfo_rootx()
+        self._offsety = super().winfo_pointery() - super().winfo_rooty()
+
+
+
 #global vars
 catColor = "gray1"
 invisibleWindow = 0
@@ -174,7 +194,7 @@ def main():
 	#window creation
 	print("running")
 	alphaColor = "orange"
-	root = Tk()
+	root = Win()
 	global posX
 	global posY
 	posX = root.winfo_screenwidth()-winX-20
