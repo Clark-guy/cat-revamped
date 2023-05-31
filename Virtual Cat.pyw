@@ -24,7 +24,7 @@ def transparencyFunc(root, alphaColor, panel2):
 		invisibleWindow = 1
 	else:
 		root.wm_attributes("-transparentcolor", "")
-		root.overrideredirect(0)
+		root.overrideredirect(1)
 		root.minsize(width=300, height=180)
 		invisibleWindow = 0
 
@@ -133,7 +133,7 @@ def moveRight(root, interval, maxSize):
 catColor = "gray1"
 invisibleWindow = 0
 winX = 300
-winY = 180
+winY = 200
 posX = 800
 posY = 400
 
@@ -180,7 +180,7 @@ def main():
 	posX = root.winfo_screenwidth()-winX-20
 	posY = root.winfo_screenheight()-winY-40
 	root.configure(bg=alphaColor)
-	root.minsize(width=300, height=180)
+	root.minsize(width=winX, height=winY)
 	root.title("Burgle")
 	root.geometry(str(winX)+"x"+str(winY)+"+"+str(posX)+"+"+str(posY))
 	root.resizable(False,False)
@@ -191,7 +191,7 @@ def main():
 		marginx = 5
 	else:
 		#Going back and forth on using overrideRedirect here- could make it a lot easier to style the window
-		#root.overrideredirect(1)
+		root.overrideredirect(1)
 		marginy = 5
 		marginx = 20
 
@@ -209,29 +209,33 @@ def main():
 	fontTuple = ("Fixedsys", 10, "bold")
 
 	#making frames
-	catFrame = Frame(root, width=100, height=100)
-	buttonFrame = Frame(root, width=100, height=100)
-	catFrame.pack(side="left")
-	buttonFrame.pack(side="right")
+	root.sticky='NESW'
+	root.grid_columnconfigure(0,weight=1)
+	catFrame = Frame(root, height=100)
+	buttonFrame = Frame(root, height=100, borderwidth=6, relief="sunken")
+	buttonFrame.grid(column=0,row=0, columnspan=2, sticky='NESW')
+	buttonFrame.grid_columnconfigure(3,weight=1)
+	catFrame.grid(column=0,row=1, sticky='W')
 
 
-	
-	b = Label(catFrame, relief="flat",bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
-	b.configure(font= fontTuple)
-	panel2 = Button(buttonFrame, image = img, bg="green", command=lambda: transparencyFunc(root, alphaColor, panel2))
-	panel1 = Button(buttonFrame, image = img, bg="blue", command=lambda: colorSwitch(b))
-	panel0 = Button(buttonFrame, image = img, bg="red", command=root.destroy)
+	cat = Label(catFrame, relief="flat",bg=alphaColor, fg=catColor, justify=LEFT, text="\n"+drawCat(0, catsList).read())
+	cat.configure(font= fontTuple)
+	panel2 = Button(buttonFrame, image = img, justify=LEFT, bg="green",  cursor="hand2", command=lambda: transparencyFunc(root, alphaColor, panel2))
+	panel1 = Button(buttonFrame, image = img, justify=LEFT, bg="blue",  cursor="hand2",  command=lambda: colorSwitch(cat))
+	panel0 = Button(buttonFrame, image = img, justify=LEFT, bg="red",  cursor="hand2",   command=root.destroy)
+	bar = Button(buttonFrame, bg="grey", justify=LEFT, height=0, cursor="fleur")
 
 	#pack panels
-	#panel0.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
-	#panel1.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
-	#panel2.pack(side="right", fill = "none", expand = "no", anchor=SE, pady=marginy)
-	#b.pack(side="right", anchor=SE, pady=marginy)
+	#panel0.pack(side="left",)
+	#panel1.pack(side="left",)
+	#panel2.pack(side="left",)
+	#b.pack(side="left", anchor=SE)
 
-	panel0.grid(column=0,row=0, sticky="W")
-	panel1.grid(column=0,row=1)
-	panel2.grid(column=0,row=2)
-	b.grid(column=0,row=0)
+	panel0.grid(column=0,row=0, sticky="NESW")
+	panel1.grid(column=1,row=0, sticky="NESW")
+	panel2.grid(column=2,row=0, sticky="NESW")
+	bar.grid(column=3,row=0, sticky='NESW')
+	cat.grid(column=0,row=1)
 
 
 
@@ -252,7 +256,7 @@ def main():
 	#
 	#
 
-	root.after(1000, lambda: animateForever(root, 0, catsList, actions, sit, b))
+	root.after(1000, lambda: animateForever(root, 0, catsList, actions, sit, cat))
 	
 	#root.after(30000, destroyFunction)
 
