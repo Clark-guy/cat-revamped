@@ -56,8 +56,8 @@ def animateForever(root, index, catsList, actions, currentAction, label):
 				currentAction = actions[0]
 			case 1:
 				currentAction = actions[1]
-				if winX>300:
-					root.after(100, lambda: moveRight(root, -10, 300))				
+				#if winX>300:
+				#	root.after(100, lambda: moveRight(root, -10, 300))				
 			case 2:
 				currentAction = actions[2]
 				#root.after(100, lambda: test(root, 10, 400))
@@ -67,8 +67,8 @@ def animateForever(root, index, catsList, actions, currentAction, label):
 				currentAction = actions[4]#walkR
 			case 5:
 				currentAction = actions[5]#walkL
-				if root.winfo_screenwidth() > winX:
-					root.after(100, lambda: moveLeft(root, 10, 550))				
+				#if root.winfo_screenwidth() > winX:
+				#	root.after(100, lambda: moveLeft(root, 10, 550))				
 			case 6:
 				currentAction = actions[6]
 			case _:
@@ -135,6 +135,8 @@ class Win(Tk):
         super().overrideredirect(True)
         self._offsetx = 0
         self._offsety = 0
+        self.posX = 800
+        self.posY = 400
         super().bind("<Button-1>" ,self.clickwin)
         super().bind("<B1-Motion>", self.dragwin)
 
@@ -193,7 +195,7 @@ def main():
 
 	#window creation
 	print("running")
-	alphaColor = "orange"
+	alphaColor = '#999999'#0x00cc99
 	root = Win()
 	global posX
 	global posY
@@ -243,7 +245,7 @@ def main():
 	panel2 = Button(buttonFrame, image = img, justify=LEFT, bg="green",  cursor="hand2", command=lambda: transparencyFunc(root, alphaColor, panel2))
 	panel1 = Button(buttonFrame, image = img, justify=LEFT, bg="blue",  cursor="hand2",  command=lambda: colorSwitch(cat))
 	panel0 = Button(buttonFrame, image = img, justify=LEFT, bg="red",  cursor="hand2",   command=root.destroy)
-	bar = Button(buttonFrame, bg="grey", justify=LEFT, height=0, cursor="fleur")
+	bar = Button(buttonFrame, bg="#006699", justify=LEFT, height=0, cursor="fleur")
 
 	#pack panels
 	#panel0.pack(side="left",)
