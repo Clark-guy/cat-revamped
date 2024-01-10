@@ -17,4 +17,8 @@ for now it was more of a fun proof of concept.
  * Make window fullscreen (still transparent) and add my own "window".
  * edit font to make it all a little more aesthetic
 
-
+ * dnd functionality where cat can
+   * delete files
+   * email files
+   * convert text to upper lower
+   * add new states (a folder of ascii images which the cat could use)
